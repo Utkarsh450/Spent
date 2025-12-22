@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import MonthlyAnalytics from '../components/Bar'
 import { ExpenseContextData } from '../Context/ExpenseContext'
 
