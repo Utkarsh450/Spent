@@ -30,7 +30,7 @@ const totalSpent: number = value.expenses.reduce(
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/")}
-          className="w-10 h-10 flex items-center justify-center rounded-full
+          className="mobile-press w-10 h-10 flex items-center justify-center rounded-full
                      bg-zinc-200 hover:bg-zinc-300 active:scale-95 transition"
         >
           <ArrowLeft size={20} />
@@ -87,7 +87,7 @@ const totalSpent: number = value.expenses.reduce(
       <div className="flex items-center mx-auto w-fit  mt-10 gap-10">
         <div className="w-28 h-8 text-center p-2 rounded-full font-semibold flex items-center gap-2  active:scale-95 hover:bg-zinc-800 transition-all text-zinc-50 bg-zinc-900">
           <TrendingUp color="#47b139" />
-          <h1>Trends</h1>
+          <Link to="/bar">Trends</Link>
         </div>
         <div className="w-38 h-8 text-center p-4 rounded-full font-semibold flex items-center gap-2  active:scale-95 hover:bg-zinc-800 transition-all text-zinc-50 bg-zinc-900">
           <CreditCard />

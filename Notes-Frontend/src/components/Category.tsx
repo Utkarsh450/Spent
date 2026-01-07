@@ -9,7 +9,7 @@ const Category = ({
     icon: React.ReactNode
     label: string
 }) => (
-    <div className={`h-24 rounded-xl ${bg} flex items-center justify-center`}>
+    <div className={`h-24 rounded-xl ${bg} flex transition-all items-center justify-center`}>
         <div className="flex flex-col items-center gap-1">
             <div className="bg-white p-2 rounded-full text-black">
                 {icon}

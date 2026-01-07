@@ -19,8 +19,7 @@ const Categories = () => {
 
         <h1 className="text-xl font-semibold mb-6">Categories</h1>
       </div>
-         <CategoryCharts expenses={chartData} total={value.expenses}
-      />
+         <CategoryCharts expenses={chartData} total={value.expenses}/>
     </div>
   )
 }

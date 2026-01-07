@@ -1,22 +1,190 @@
-import { Link } from "react-router-dom"
+import axios from "../utils/axiosConfig"
+import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { ExpenseContextData } from "../Context/ExpenseContext"
+
+/* ---------------- Validation Helpers ---------------- */
+
+const isValidEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+const isValidPhone = (phone: string) =>
+  /^[0-9]{10,12}$/.test(phone)
+
+const isValidPassword = (password: string) =>
+  /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/.test(password)
+
+/* ---------------- Component ---------------- */
 
 const Register = () => {
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [telephone, setTelephone] = useState("")
+
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const { setdata } = useContext(ExpenseContextData)
+  const navigate = useNavigate()
+
+  /* ---------------- Submit Handler ---------------- */
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+
+    // ---- First Name ----
+    if (firstName.trim().length < 2) {
+      return setError("First name must be at least 2 characters")
+    }
+
+    // ---- Last Name ----
+    if (lastName.trim().length < 2) {
+      return setError("Last name must be at least 2 characters")
+    }
+
+    // ---- Email ----
+    if (!isValidEmail(email)) {
+      return setError("Please enter a valid email address")
+    }
+
+    // ---- Phone ----
+    if (!isValidPhone(telephone)) {
+      return setError("Phone number must be 10–12 digits")
+    }
+
+    // ---- Password ----
+    if (!isValidPassword(password)) {
+      return setError(
+        "Password must be 8+ chars and include a number & special character"
+      )
+    }
+
+    const payload = {
+      fullName: {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+      },
+      email: email.trim(),
+      password,
+      PhoneNumber: telephone,
+    }
+
+    try {
+      setLoading(true)
+      const response = await axios.post("/auth/register", payload)
+
+      if (response.status === 201) {
+        setdata(prev => ({
+          ...prev,
+          username: `${firstName} ${lastName}`,
+          email,
+        }))
+
+        // Reset form
+        setFirstName("")
+        setLastName("")
+        setEmail("")
+        setPassword("")
+        setTelephone("")
+
+        navigate("/")
+      }
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+          "Registration failed. Please try again."
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  /* ---------------- UI ---------------- */
+
   return (
-    <div className="flex items-center justify-center font-[satoshi] mt-22">
-            <div className="flex flex-col gap-4">
-                <h1 className="font-semibold text-lg">Create your account</h1>
-                <form className="flex flex-col gap-4">
-                    <div className="flex gap-4">
-                        <input className="w-fit grow h-fit text-zinc-500 text-sm p-2 md:text-md md:p-3 hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="FirstName" type="text" />
-                        <input className="w-fit grow h-fit text-zinc-500 text-sm p-2 md:text-md md:p-3 hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="LastName" type="text" />
-                    </div>
-                    <input className=" h-fit text-zinc-500 text-sm p-2 md:text-md md:p-3 hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="Email" type="email" />
-                    <input className=" h-fit p-2 text-zinc-500 text-sm md:text-md md:p-3 hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="Password" type="password" />
-                    <button className="w-fit h-fit p-2 text-sm md:text-md bg-sky-500 hover:bg-sky-600 text-zinc-50 cursor-pointer rounded">Create</button>
-                </form>
-                <h1 className="font-medium text-zinc-400 text-sm">Already have a account? <Link to="/login" className="text-sky-500 cursor-pointer hover:underline">Login here</Link></h1>
-            </div>
-        </div>
+    <div className="w-full h-screen flex items-center justify-center font-[satoshi]">
+      <div className="flex flex-col gap-4 w-[320px]">
+
+        <h1 className="font-semibold text-lg">Create your account</h1>
+
+        {error && (
+          <p className="text-red-500 text-sm bg-red-50 p-2 rounded">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex gap-3">
+            <input
+              required
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="grow p-2 md:p-3 text-sm md:text-md bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+              placeholder="First name"
+              type="text"
+            />
+
+            <input
+              required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="grow p-2 md:p-3 text-sm md:text-md bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+              placeholder="Last name"
+              type="text"
+            />
+          </div>
+
+          <input
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-2 md:p-3 text-sm md:text-md bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+            placeholder="Email"
+            type="email"
+          />
+
+          <input
+            required
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
+            className="p-2 md:p-3 text-sm md:text-md bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+            placeholder="Phone number"
+            type="tel"
+            inputMode="numeric"
+          />
+
+          <input
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-2 md:p-3 text-sm md:text-md bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+            placeholder="Password"
+            type="password"
+          />
+
+          <button
+            disabled={loading}
+            className="p-2 md:p-3 bg-sky-500 hover:bg-sky-600
+                       text-white rounded disabled:opacity-50"
+          >
+            {loading ? "Creating..." : "Create"}
+          </button>
+        </form>
+
+        <p className="text-sm text-zinc-400">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-sky-500 hover:underline"
+          >
+            Login here
+          </Link>
+        </p>
+      </div>
+    </div>
   )
 }
 

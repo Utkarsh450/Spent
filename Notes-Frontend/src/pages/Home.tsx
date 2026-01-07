@@ -41,7 +41,7 @@ const Home: React.FC = () => {
       {/* Categories */}
       <h2 className="text-lg font-semibold mb-3">Categories</h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2  gap-4">
         <NavLink to="/create-hisaab?category=Food">
           <Category bg="bg-yellow-500" icon={<Coffee />} label="Food" />
         </NavLink>

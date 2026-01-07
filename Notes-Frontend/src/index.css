@@ -1,4 +1,12 @@
 .clip-notch{
     box-shadow: 2px 2px 28px crimson;
 }
+
+.mobile-press {
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.mobile-press:active {
+  transform: scale(0.96);
+}
 @import "tailwindcss";

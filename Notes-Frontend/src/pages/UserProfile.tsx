@@ -1,129 +1,136 @@
-import React from "react"
+import { useState } from "react"
 import {
-  ChevronRight,
-  Settings,
-  ShieldCheck,
-  ChartPie,
   User,
+  Bell,
+  Lock,
+  Moon,
+  LogOut,
+  ChevronRight,
+  Camera
 } from "lucide-react"
-import { Link } from "react-router-dom"
 
 const UserProfile = () => {
+  const [darkMode, setDarkMode] = useState(true)
+  const [notifications, setNotifications] = useState(true)
+
   return (
-    <div className="w-full min-h-screen bg-zinc-950 text-white font-[satoshi] px-4 pb-28">
+    <div className="w-full min-h-screen bg-zinc-950 text-white font-[satoshi] pb-20">
 
       {/* Header */}
-      <div className="pt-6 pb-4">
-        <h1 className="text-xl font-semibold">Profile</h1>
+      <div className="p-5">
+        <h1 className="text-2xl font-semibold">Settings</h1>
+        <p className="text-sm text-zinc-400 mt-1">
+          Manage your account & preferences
+        </p>
       </div>
 
-      {/* User Row */}
-      <div className="flex items-center gap-4 py-4">
-        <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center">
-          <User size={20} className="text-zinc-300" />
+      {/* Profile Card */}
+      <div className="mx-4 mb-6 p-4 rounded-2xl bg-zinc-900 flex items-center gap-4">
+        <div className="relative">
+          <div className="w-14 h-14 rounded-full bg-zinc-700 flex items-center justify-center text-xl font-semibold">
+            U
+          </div>
+          <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center">
+            <Camera size={14} />
+          </div>
         </div>
 
         <div className="flex-1">
-          <p className="font-medium">Utkarsh Barnwal</p>
-          <p className="text-xs text-zinc-400">
-            utkarsh@email.com
-          </p>
+          <h2 className="font-medium">Utkarsh</h2>
+          <p className="text-sm text-zinc-400">utkarsh@email.com</p>
         </div>
 
-        <ChevronRight size={18} className="text-zinc-500" />
+        <ChevronRight className="text-zinc-500" />
       </div>
 
-      <div className="h-px bg-zinc-800 my-4" />
+      {/* ACCOUNT SECTION */}
+      <div className="mx-4 mb-6">
+        <h3 className="mb-2 text-sm text-zinc-400 px-2">Account</h3>
 
-      {/* Stats (minimal, not cards) */}
-      <div className="flex justify-between text-center mb-6">
-        <ProfileStat value="128" label="Expenses" />
-        <ProfileStat value="4" label="Months" />
+        <div className="rounded-2xl bg-zinc-900 divide-y divide-zinc-800">
+          <div className="flex items-center gap-3 p-4 active:bg-zinc-800 transition">
+            <User size={18} className="text-zinc-400" />
+            <span className="flex-1">Edit Profile</span>
+            <ChevronRight size={18} className="text-zinc-600" />
+          </div>
+
+          <div className="flex items-center gap-3 p-4 active:bg-zinc-800 transition">
+            <Lock size={18} className="text-zinc-400" />
+            <span className="flex-1">Change Password</span>
+            <ChevronRight size={18} className="text-zinc-600" />
+          </div>
+        </div>
       </div>
 
-      {/* Section: Preferences */}
-      <Section title="Preferences">
-        <Row icon={<ChartPie />} label="Insights" />
-        <Link to="/settings"><Row icon={<Settings />} label="Settings" /></Link>
-      </Section>
+      {/* PREFERENCES SECTION */}
+      <div className="mx-4 mb-6">
+        <h3 className="mb-2 text-sm text-zinc-400 px-2">Preferences</h3>
 
-      {/* Section: Security */}
-      <Section title="Security">
-        <Row icon={<ShieldCheck />} label="Privacy & Security" />
-      </Section>
+        <div className="rounded-2xl bg-zinc-900 divide-y divide-zinc-800">
 
-      {/* Logout */}
-      <button
-        className="
-          w-full mt-8 py-3 rounded-xl
-          text-sm font-medium
-          text-red-400
-          bg-zinc-900 border border-zinc-800
-          active:scale-95 transition
-        "
-      >
-        Log out
-      </button>
+          {/* Notifications Toggle */}
+          <div
+            onClick={() => setNotifications(!notifications)}
+            className="flex items-center gap-3 p-4 cursor-pointer active:bg-zinc-800 transition"
+          >
+            <div className="relative text-zinc-400">
+              <Bell size={18} />
+              {notifications && (
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_crimson]" />
+              )}
+            </div>
+
+            <span className="flex-1">Notifications</span>
+
+            <div
+              className={`w-11 h-6 rounded-full p-1 transition ${
+                notifications ? "bg-green-500" : "bg-zinc-700"
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white transition transform ${
+                  notifications ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* Dark Mode Toggle */}
+          <div
+            onClick={() => setDarkMode(!darkMode)}
+            className="flex items-center gap-3 p-4 cursor-pointer active:bg-zinc-800 transition"
+          >
+            <Moon size={18} className="text-zinc-400" />
+            <span className="flex-1">Dark Mode</span>
+
+            <div
+              className={`w-11 h-6 rounded-full p-1 transition ${
+                darkMode ? "bg-green-500" : "bg-zinc-700"
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white transition transform ${
+                  darkMode ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* LOGOUT */}
+      <div className="mx-4">
+        <div className="rounded-2xl bg-zinc-900">
+          <button className="w-full flex items-center gap-3 p-4 text-red-400 active:bg-zinc-800 transition">
+            <LogOut size={18} />
+            <span className="flex-1 text-left">Logout</span>
+          </button>
+        </div>
+      </div>
+
     </div>
   )
 }
-
-/* ---------------- Small Components ---------------- */
-
-const ProfileStat = ({
-  value,
-  label,
-}: {
-  value: string
-  label: string
-}) => (
-  <div>
-    <p className="text-lg font-semibold">{value}</p>
-    <p className="text-[0.65rem] uppercase tracking-wide text-zinc-400">
-      {label}
-    </p>
-  </div>
-)
-
-const Section = ({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) => (
-  <div className="mb-6">
-    <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">
-      {title}
-    </p>
-    <div className="flex flex-col gap-1">{children}</div>
-  </div>
-)
-
-const Row = ({
-  icon,
-  label,
-}: {
-  icon: React.ReactNode
-  label: string
-}) => (
-  <button
-    className="
-      w-full flex items-center justify-between
-      px-3 py-3 rounded-xl
-      hover:bg-zinc-900
-      active:bg-zinc-900
-      transition
-    "
-  >
-    <div className="flex items-center gap-3">
-      <div className="w-8 h-8 flex items-center justify-center text-zinc-400">
-        {icon}
-      </div>
-      <span className="text-sm">{label}</span>
-    </div>
-    <ChevronRight size={16} className="text-zinc-600" />
-  </button>
-)
 
 export default UserProfile

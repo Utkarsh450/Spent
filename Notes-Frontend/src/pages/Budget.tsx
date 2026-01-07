@@ -51,11 +51,11 @@ const Budget = () => {
             </div>
         </div>
         <div>
-            <button onClick={()=> handleBudget()} className='w-44 h-14 fixed bottom-0 left-0 translate-x-28 mb-3 p-2 font-semibold rounded-full bg-green-700 text-green-200 active:scale-95 hover:bg-green-800 text-xl'>Set Budget</button>
+            <button onClick={()=> handleBudget()} className='mobile-press w-44 h-14 fixed bottom-0 left-0 translate-x-28 mb-3 p-2 font-semibold rounded-full bg-green-700 text-green-200 active:scale-95 hover:bg-green-800 text-xl'>Set Budget</button>
         </div>
     </div>
   )
-}   
+}
 
 
 

@@ -4,6 +4,9 @@ interface ExpenseContextProps {
 }
 
 
+
+
+
 interface ExpenseData {
   title: string;
   id: string;
@@ -16,7 +19,8 @@ interface ExpenseData {
 }
 
 interface ExpenseContextType {
-  TotalBalance: number;
+  username: string;
+  email: string;
   OverAllBudget: number;
   expenses: ExpenseData[];
 }
@@ -28,14 +32,14 @@ interface ExpenseContextDataType {
 
 // Default value is required
 export const ExpenseContextData = createContext<ExpenseContextDataType>({
-  value: { TotalBalance: 0, OverAllBudget:0, expenses: [] },
+  value: { username: "", email: "", OverAllBudget:0, expenses: [] },
   setdata: ()=>{}
 });
 
 const ExpenseContext: React.FC<ExpenseContextProps> = ({ children }) => {
   const [data, setdata] = useState<ExpenseContextType>(() => {
     const storedData = localStorage.getItem("expenseData");
-    return storedData ? (JSON.parse(storedData) as ExpenseContextType) : {TotalBalance: 0, OverAllBudget:0, expenses: [] };
+    return storedData ? (JSON.parse(storedData) as ExpenseContextType) : { username: "", email: "", OverAllBudget:0, expenses: [] };
   });
 
   useEffect(() => {

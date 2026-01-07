@@ -1,18 +1,129 @@
-import { Link } from "react-router-dom"
+import axios from "../utils/axiosConfig"
+import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { ExpenseContextData } from "../Context/ExpenseContext"
+
+/* ---------------- Component ---------------- */
 
 const Login = () => {
-    return (
-        <div className="flex items-center justify-center font-[satoshi] mt-32">
-            <div className="flex flex-col gap-4">
-                <h1 className="font-semibold text-lg">Login your account</h1>
-                <form className="flex flex-col gap-4">
-                    <input className="w-fit h-fit text-zinc-500 text-md p-3 hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="Email" type="email" />
-                    <input className="w-fit h-fit p-3 text-zinc-500 text-md hover:bg-zinc-200 outline-none bg-zinc-100 rounded" placeholder="Password" type="password" />
-                    <button className="w-24 h-fit p-2 bg-sky-500 hover:bg-sky-600 text-zinc-50 cursor-pointer rounded">Login</button>
-                </form>
-                <h1 className="font-medium text-zinc-400 text-sm">Don't have a account? <Link to="/register" className="text-sky-500 cursor-pointer hover:underline">Register here</Link></h1>
-            </div>
-        </div>
-    )
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const { value,setdata } = useContext(ExpenseContextData)
+  const navigate = useNavigate()
+
+  /* ---------------- Submit Handler ---------------- */
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+
+    // ---- Basic validations (same as Register style) ----
+    if (!email.trim() || !password.trim()) {
+      return setError("Please fill all fields")
+    }
+
+    if (!email.includes("@")) {
+      return setError("Please enter a valid email")
+    }
+
+    if (password.length < 6) {
+      return setError("Password must be at least 6 characters")
+    }
+
+    
+    try {
+      setLoading(true)
+
+      const response = await axios.post("/auth/login", {
+        email: email.trim(),
+        password,
+      })      
+      console.log(response);
+
+      if (response.status === 200) {
+        const { user } = response.data
+        
+        
+        
+        setdata(prev => ({
+          ...prev,
+          username: user?.username,
+          email: user?.email,
+        }))
+        console.log("Currently Logging user");
+        console.log(value);
+        
+        
+        navigate("/")
+      }
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+          "Invalid email or password"
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  /* ---------------- UI ---------------- */
+
+  return (
+    <div className="w-full h-screen flex items-center justify-center font-[satoshi]">
+      <div className="flex flex-col gap-4 w-[320px]">
+
+        <h1 className="font-semibold text-lg">Login your account</h1>
+
+        {error && (
+          <p className="text-red-500 text-sm bg-red-50 p-2 rounded">
+            {error}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-3 text-sm bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+            placeholder="Email"
+            type="email"
+          />
+
+          <input
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-3 text-sm bg-zinc-100 rounded outline-none hover:bg-zinc-200"
+            placeholder="Password"
+            type="password"
+          />
+
+          <button
+            disabled={loading}
+            className="w-full p-2 bg-sky-500 hover:bg-sky-600
+                       text-white rounded disabled:opacity-50"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        <p className="text-sm text-zinc-400">
+          Don&apos;t have an account?{" "}
+          <Link
+            to="/register"
+            className="text-sky-500 hover:underline"
+          >
+            Register here
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
 }
+
 export default Login

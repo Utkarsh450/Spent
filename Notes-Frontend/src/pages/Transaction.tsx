@@ -59,9 +59,10 @@ function iconFInder(category: string){
 
 
     const filtered = useMemo(() => {
-        const q = query;        
+        const q = query.toLowerCase();
+                   
         return value.expenses.filter((elem) => {
-            return (elem.title.includes(q) || elem.amount.toString() === q || elem.category.toLowerCase().includes(q.toLowerCase()) || elem.date.toLowerCase().includes(q.toLowerCase()))
+            return (elem.title.toLowerCase().includes(q) || elem.amount.toString() === q || elem.category.toLowerCase().includes(q) || elem.date.toLowerCase().includes(q.toLowerCase()))
             
         })
     }, [query, value.expenses])
@@ -69,7 +70,7 @@ function iconFInder(category: string){
         
         
         
-        <div className='w-full h-screen font-[satoshi] bg-zinc-900 text-zinc-50 overflow-auto'>
+        <div className='w-full h-screen font-[satoshi] bg-zinc-950 text-zinc-50 overflow-auto'>
             <div className='p-5'>
                 <h1 className='font-semibold text-2xl'>Transactions</h1>
                 <h1 className='font-semibold text-sm text-zinc-400 mt-10'>Your transactions</h1>
@@ -82,7 +83,7 @@ function iconFInder(category: string){
             {filtered.map(item => {
                 return (
                     <>
-                        <div className='mt-4'>
+                        <div key={item.id} className='mt-4'>
                             <div className='w-full flex justify-between p-6'>
                                 <div className='flex gap-2'>
                                     <div className={`w-10 h-10 rounded-full ${iconFInder(item.category).color} flex items-center justify-center`}>{iconFInder(item.category).category}</div>

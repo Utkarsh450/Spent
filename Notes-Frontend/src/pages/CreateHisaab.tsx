@@ -154,7 +154,7 @@ const CreateHisaab = () => {
       <input
       required
         type="text"
-        placeholder="What was this expense for? (optional)"
+        placeholder="What was this expense for?"
         value={name}
         onChange={(e) => setname(e.target.value)}
         className="
@@ -181,7 +181,7 @@ const CreateHisaab = () => {
       <button
         onClick={handleAddExpense}
         disabled={!amount || !selectedCategory}
-        className={`
+        className={`mobile-press
           fixed bottom-5 left-1/2 -translate-x-1/2
           w-[92%] h-14 rounded-2xl text-lg font-semibold
           transition
@@ -224,7 +224,7 @@ const CreateHisaab = () => {
 
             <button
               onClick={() => setPickerOpen(false)}
-              className="w-full mt-6 text-sm text-zinc-400"
+              className="mobile-press w-full mt-6 text-sm text-zinc-400"
             >
               Cancel
             </button>
