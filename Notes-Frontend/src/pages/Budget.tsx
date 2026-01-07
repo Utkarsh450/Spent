@@ -1,69 +1,108 @@
-import { ArrowLeft, Gauge, NotebookTabs  } from "lucide-react"
-import { useNavigate } from 'react-router-dom'
-import { ExpenseContextData } from '../Context/ExpenseContext';
-import { useContext, useState } from "react";
+import { ArrowLeft, Wallet } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
+import { ExpenseContextData } from "../Context/ExpenseContext"
 
 const Budget = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { value, setdata } = useContext(ExpenseContextData)
 
-    const { value, setdata } = useContext(ExpenseContextData)
-    console.log(value.OverAllBudget);
-    
+  const [amount, setAmount] = useState<string>("")
 
+  const handleBudget = () => {
+    if (!amount) return
+    setdata(prev => ({
+      ...prev,
+      OverAllBudget: Number(amount),
+    }))
+    navigate("/charts")
+  }
 
-
-
-    const [name, setname] = useState<string>("")
-    
-    const handleBudget = ()=>{
-        setdata(prev => ({...prev, OverAllBudget: Number(name)}))
-    }
   return (
-    <div className='w-full h-screen p-4 font-[satoshi]'>
-        
-        
-        
-        
-        <div className='flex items-center gap-4'>
-            <div onClick={()=>navigate("/charts")} className='w-fit h-fit p-2 rounded-full bg-zinc-300 hover:bg-zinc-400'><ArrowLeft /></div>
-            <div className='font-medium text-xl'>Budget Planner</div>
+    <div className="w-full h-screen bg-zinc-100 font-[satoshi] flex flex-col">
+
+      {/* Header */}
+      <div className="flex items-center gap-3 p-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center active:scale-95"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <h1 className="text-lg font-semibold text-zinc-900">
+          Monthly Budget
+        </h1>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 px-4 flex flex-col gap-10">
+
+        {/* Info block */}
+        <div className="mt-4">
+          <p className="text-3xl font-semibold text-zinc-900 leading-tight">
+            Plan your <br /> monthly spending
+          </p>
+          <p className="text-sm text-zinc-500 mt-2">
+            Setting a budget helps you stay in control of your expenses.
+          </p>
         </div>
-        <div className='mt-10 flex items-center justify-between'>
-            <div className='flex flex-col gap-2 justify-center'>
-                <h2 className='font-semibold text-2xl'>Set monthly <br /> budget</h2>
-                <h2 className='font-normal text-sm'>setting a budget reduces <br /> expenditures about 10% on <br /> average</h2>
-            </div>
-            <div className='text-2xl'>
-                
-                <Gauge  size={95} />
-            </div>
-        </div>
-        
-        
-        <div className='flex mt-10 items-center justify-between'>
-            <div className='flex items-center gap-4'>
-                <div className='w-fit h-fit rounded-full p-2 bg-zinc-300 hover:bg-zinc-400'><NotebookTabs /></div>
-                <div className='font-semibold text-lg'>Overall Budget</div>
+
+        {/* Current budget card */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+              <Wallet className="text-green-600" />
             </div>
             <div>
-
-                <input value={"₹"+name} onChange={(e)=>setname(e.target.value)} className={`w-22 h-10 p-2 text-zinc-900 outline-none rounded-lg bg-zinc-100 text-md font-semibold`} type="text" placeholder='₹' />
+              <p className="text-xs text-zinc-500">Current budget</p>
+              <p className="text-xl font-semibold text-zinc-900">
+                ₹{value.OverAllBudget || 0}
+              </p>
             </div>
+          </div>
         </div>
-        <div>
-            <button onClick={()=> handleBudget()} className='mobile-press w-44 h-14 fixed bottom-0 left-0 translate-x-28 mb-3 p-2 font-semibold rounded-full bg-green-700 text-green-200 active:scale-95 hover:bg-green-800 text-xl'>Set Budget</button>
+
+        {/* Input */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm text-zinc-600">
+            Set new monthly budget
+          </label>
+          <input
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            type="number"
+            placeholder="Enter amount (₹)"
+            className="
+              w-full h-14 px-4
+              rounded-xl bg-white
+              text-lg font-semibold text-zinc-900
+              outline-none border border-zinc-200
+              focus:border-green-600
+            "
+          />
         </div>
+      </div>
+
+      {/* Bottom CTA */}
+      <div className="p-4">
+        <button
+          onClick={handleBudget}
+          className="
+            w-full h-14 rounded-full
+            bg-green-700 text-green-100
+            font-semibold text-lg
+            active:scale-95 transition
+            disabled:opacity-50
+          "
+          disabled={!amount}
+        >
+          Save Budget
+        </button>
+      </div>
+
     </div>
   )
 }
-
-
-
-
-
-
-
-
 
 
 export default Budget

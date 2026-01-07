@@ -9,6 +9,6 @@ router.get("/logout", authenticateUser, logoutController);
 router.get("/@me", authenticateUser, (req, res) =>{
     res.json({message: "User is authenticated"})
 });
-router.get("/refresh", authenticateUser, refreshTokenController);
+router.get("/refresh", refreshTokenController);
 
 export default router;

@@ -97,7 +97,7 @@ function iconFInder(category: string){
                                         </div>
                                     </div>
                                 </div>
-                                <div className='text-orange-500 text-lg font-semibold'>-₹{item.amount}</div>
+                                <div className='text-orange-500 text-lg font-semibold'>₹{item.amount}</div>
                             </div>
                         </div>
 
