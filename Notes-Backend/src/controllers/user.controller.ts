@@ -43,19 +43,13 @@ export async function registerController(req: Request, res: Response) {
 
   // ✅ 7. Send cookies
   res
-    .status(201)
-    .cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1 * 60 * 1000,
-    })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 2 * 60 * 1000,
     })
-    .json({ message: "User registered successfully" })
+    .json({ message: "User registered successfully", accessToken  })
 }
 export async function loginController(req: Request, res: Response) {
       const parsed = userZodSchema.safeParse(req.body)
@@ -84,17 +78,13 @@ export async function loginController(req: Request, res: Response) {
     // ✅ 7. Send cookies
     res
         .status(200)
-        .cookie("accessToken", accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 1 * 60 * 1000,
-        })
         .cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: true,
+            secure: false,          // 🔥 DEV
+  sameSite: "lax",
             maxAge: 2 * 60 * 1000,
         })
-        .json({ message: "User logged in successfully", user: { username: user.fullName, email: user.email } })
+        .json({ message: "User logged in successfully", user: { username: user.fullName, email: user.email }, accessToken  })
 }
 export async function logoutController(req: Request, res: Response) {
   const refreshToken = req.cookies?.refreshToken
@@ -145,16 +135,12 @@ export async function refreshTokenController(req: Request, res: Response){
 
   await user.save()
    res
-    .cookie("accessToken", newAccessToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 1 * 60 * 1000,
-    })
     .cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
-      secure: true,
-      maxAge: 2*60*1000,
+      secure: false,      // 🔥 localhost
+  sameSite: "lax",
+      maxAge: 3*60*1000,
     })
     .status(200)
-    .json({ message: "Token refreshed" })
+    .json({ message: "Token refreshed", accessToken: newAccessToken })
 }

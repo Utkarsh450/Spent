@@ -2,6 +2,7 @@ import axios from "../utils/axiosConfig"
 import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ExpenseContextData } from "../Context/ExpenseContext"
+import { setAccessToken } from "../utils/tokenStore"
 
 /* ---------------- Component ---------------- */
 
@@ -46,6 +47,7 @@ const Login = () => {
 
       if (response.status === 200) {
         const { user } = response.data
+        setAccessToken(response.data.accessToken)
         
         
         

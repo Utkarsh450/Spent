@@ -33,7 +33,7 @@ export const userZodSchema = z.object({
 
   totalBudget: z.number().min(0).default(0),
   PhoneNumber: z.string()
-  .regex(/^[6-9]\d{9}$/, "Invalid phone number").optional(),
+  .regex(/^[0-9]\d{9}$/, "Invalid phone number").optional(),
 
   expenses: z.array(expenseZodSchema).default([]),
 

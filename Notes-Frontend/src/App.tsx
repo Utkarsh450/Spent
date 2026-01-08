@@ -13,7 +13,7 @@ const App = () => {
     // 👇 minimum boot loader time (UX friendly)
     const timer = setTimeout(() => {
       setLoaded(true)
-    }, 5000) // 1.2s — adjust if needed
+    }, 2000) // 1.2s — adjust if needed
 
     return () => clearTimeout(timer)
   }, [])

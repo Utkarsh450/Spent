@@ -2,6 +2,7 @@ import axios from "../utils/axiosConfig"
 import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ExpenseContextData } from "../Context/ExpenseContext"
+import { setAccessToken } from "../utils/tokenStore"
 
 /* ---------------- Validation Helpers ---------------- */
 
@@ -77,6 +78,7 @@ const Register = () => {
       const response = await axios.post("/auth/register", payload)
 
       if (response.status === 201) {
+        setAccessToken(response.data.accessToken)
         setdata(prev => ({
           ...prev,
           username: `${firstName} ${lastName}`,

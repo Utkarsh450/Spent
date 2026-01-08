@@ -7,8 +7,8 @@ router.post("/register", registerController);
 router.post("/login", loginController);
 router.get("/logout", authenticateUser, logoutController);
 router.get("/@me", authenticateUser, (req, res) =>{
-    res.json({message: "User is authenticated"})
+    res.status(200).json({message: "User is authenticated"})
 });
-router.get("/refresh", refreshTokenController);
+router.post("/refresh", refreshTokenController);
 
 export default router;

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import { Request, Response, NextFunction } from "express"
 
 export function authenticateUser(req: Request, res: Response, next: NextFunction){
-    const token = req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(" ")[1];
     if(!token){
         return res.status(401).json({message: "Access Denied. No token provided."});
     }
@@ -11,7 +11,7 @@ export function authenticateUser(req: Request, res: Response, next: NextFunction
         (req as any).user = decoded;
         next();
     } catch(err){
-        return  res.status(400).json({message: "Invalid token."});
+        return  res.status(401).json({message: "Invalid token."});
     }
 }
 
