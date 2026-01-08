@@ -47,13 +47,13 @@ export async function registerController(req: Request, res: Response) {
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 15 * 60 * 1000,
+      maxAge: 1 * 60 * 1000,
     })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 2 * 60 * 1000,
     })
     .json({ message: "User registered successfully" })
 }
@@ -87,12 +87,12 @@ export async function loginController(req: Request, res: Response) {
         .cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
-            maxAge: 15 * 60 * 1000,
+            maxAge: 1 * 60 * 1000,
         })
         .cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000,
+            maxAge: 2 * 60 * 1000,
         })
         .json({ message: "User logged in successfully", user: { username: user.fullName, email: user.email } })
 }
