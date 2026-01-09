@@ -1,21 +1,45 @@
-import { useEffect, useState } from "react"
-import { Navigate, useLocation } from "react-router-dom"
+import { useEffect, useState, type ReactNode } from "react"
+import { Navigate } from "react-router-dom"
 import api from "../utils/axiosConfig"
 
-const AuthWrapper = ({ children }) => {
-  const [status, setStatus] = useState<"loading" | "ok" | "fail">("loading")
-  const location = useLocation()
+interface AuthWrapperProps {
+  children: ReactNode
+}
+
+type AuthStatus = "checking" | "authenticated" | "unauthenticated"
+
+const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
+  const [status, setStatus] = useState<AuthStatus>("checking")
 
   useEffect(() => {
-    setStatus("loading")
+    let isMounted = true
 
-    api.get("/auth/@me")
-      .then(() => setStatus("ok"))
-      .catch(() => setStatus("fail"))
-  }, [location.pathname]) // 🔥 THIS IS THE KEY
+    api
+      .get("/auth/@me")
+      .then(() => {
+        if (isMounted) setStatus("authenticated")
+      })
+      .catch(() => {
+        if (isMounted) setStatus("unauthenticated")
+      })
 
-  if (status === "loading") return <div>Checking auth...</div>
-  if (status === "fail") return <Navigate to="/login" replace />
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  // 🔒 BLOCK UI until auth is decided
+  if (status === "checking") {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p className="text-sm text-zinc-400">Checking authentication...</p>
+      </div>
+    )
+  }
+
+  if (status === "unauthenticated") {
+    return <Navigate to="/login" replace />
+  }
 
   return <>{children}</>
 }

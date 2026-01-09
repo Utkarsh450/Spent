@@ -1,5 +1,6 @@
 import express, { Application } from "express"
 import authRoutes from "./routes/user.routes"
+import productRoutes from "./routes/money.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -14,7 +15,8 @@ app.use(cors({
 app.use(cookieParser());
 
 
-app.use("/api/auth", authRoutes);
 
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes)
 
 export default app

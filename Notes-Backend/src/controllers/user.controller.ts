@@ -7,7 +7,6 @@ import logger from "../logger/logger"
 export async function registerController(req: Request, res: Response) {
   // ✅ 1. Validate first
   const parsed = userZodSchema.safeParse(req.body)
-  console.log("data", parsed)
 
   if (!parsed.success) {
     return res.status(400).json({
@@ -47,13 +46,12 @@ export async function registerController(req: Request, res: Response) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 2 * 60 * 1000,
+      maxAge: 15 * 60 * 1000,
     })
     .json({ message: "User registered successfully", accessToken  })
 }
 export async function loginController(req: Request, res: Response) {
       const parsed = userZodSchema.safeParse(req.body)
-      console.log("data", parsed)
         if (!parsed.success) {
             return res.status(400).json({
         message: "Invalid input",
@@ -82,7 +80,7 @@ export async function loginController(req: Request, res: Response) {
             httpOnly: true,
             secure: false,          // 🔥 DEV
   sameSite: "lax",
-            maxAge: 2 * 60 * 1000,
+            maxAge: 15 * 60 * 1000,
         })
         .json({ message: "User logged in successfully", user: { username: user.fullName, email: user.email }, accessToken  })
 }
@@ -139,7 +137,7 @@ export async function refreshTokenController(req: Request, res: Response){
       httpOnly: true,
       secure: false,      // 🔥 localhost
   sameSite: "lax",
-      maxAge: 3*60*1000,
+      maxAge: 15*60*1000,
     })
     .status(200)
     .json({ message: "Token refreshed", accessToken: newAccessToken })

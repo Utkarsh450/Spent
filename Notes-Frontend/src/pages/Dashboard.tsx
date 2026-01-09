@@ -20,7 +20,6 @@ const totalSpent: number = value.expenses.reduce(
   0
   
 );
-  console.log("Growth Rate:",totalSpent*100/totalBudget);
   const Spent = totalSpent*100/totalBudget;
 
   return (

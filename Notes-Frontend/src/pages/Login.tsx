@@ -43,7 +43,6 @@ const Login = () => {
         email: email.trim(),
         password,
       })      
-      console.log(response);
 
       if (response.status === 200) {
         const { user } = response.data
@@ -56,8 +55,6 @@ const Login = () => {
           username: user?.username,
           email: user?.email,
         }))
-        console.log("Currently Logging user");
-        console.log(value);
         
         
         navigate("/")

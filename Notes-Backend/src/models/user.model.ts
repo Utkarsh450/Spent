@@ -101,7 +101,7 @@ userSchema.methods.generateAccessToken = function () {
     },
     process.env.ACCESS_TOKEN_SECRET as string,
     {
-      expiresIn: "25s",
+      expiresIn: "4d",
     }
   )
 }
@@ -114,7 +114,7 @@ userSchema.methods.generateRefreshToken = function () {
     },
     process.env.REFRESH_TOKEN_SECRET as string,
     {
-      expiresIn: "2m",
+      expiresIn: "15d",
     }
   )
 

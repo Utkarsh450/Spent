@@ -38,6 +38,8 @@ const categories: Category[] = [
 
 const CreateHisaab = () => {
   const [params] = useSearchParams()
+  console.log(params.get("category"));
+
   const navigate = useNavigate()
   const { setdata } = useContext(ExpenseContextData);
 
@@ -72,17 +74,15 @@ const CreateHisaab = () => {
     const obj1 = {
       id: nanoid(),
       category: selectedCategory,
-      time:  new Date().toLocaleString("en-GB", {
+      time: new Date().toLocaleString("en-GB", {
         month: "long"
-}),
-
+      }),
       title: name,
-      month:  new Date().toLocaleTimeString("en-GB", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-}),
-
+      month: new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
       amount: Number(amount),
       date: new Date().toLocaleDateString("en-GB", {
         day: "numeric", month: "short",
@@ -100,7 +100,6 @@ const CreateHisaab = () => {
         expenses: [...prev.expenses, obj1]
       }
     })
-    // navigate(`/?category=${selectedCategory}`)
   }
   return (
     <div className="w-full min-h-screen bg-zinc-950 text-white font-[satoshi] p-4 pb-28">
@@ -152,7 +151,7 @@ const CreateHisaab = () => {
       </div>
       {/* Expense name / note */}
       <input
-      required
+        required
         type="text"
         placeholder="What was this expense for?"
         value={name}

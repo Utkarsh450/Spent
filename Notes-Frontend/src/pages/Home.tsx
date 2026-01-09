@@ -33,7 +33,7 @@ const Home: React.FC = () => {
           
           <span>₹{ spent ? spent : Number("0").toFixed(2)}</span>
           <span className="bg-white text-zinc-900 text-xs px-3 py-1 rounded-full">
-            +10%
+            +10% 
           </span>
         </div>
       </div>
