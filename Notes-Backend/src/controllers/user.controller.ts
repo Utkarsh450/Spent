@@ -7,6 +7,8 @@ import logger from "../logger/logger"
 export async function registerController(req: Request, res: Response) {
   // ✅ 1. Validate first
   const parsed = userZodSchema.safeParse(req.body)
+  console.log(parsed);
+  
 
   if (!parsed.success) {
     return res.status(400).json({
