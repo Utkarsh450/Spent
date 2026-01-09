@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes)
 app.get("*name", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/html"))
+    res.sendFile(path.join(__dirname, "../public/index.html"))
 })
 
 export default app
