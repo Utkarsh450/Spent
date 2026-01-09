@@ -5,7 +5,7 @@ import connectToDB from "./src/db/db";
 dotenvConfig();
 connectToDB();
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
   logger.info(`Server is running on http://localhost:${PORT}`)
