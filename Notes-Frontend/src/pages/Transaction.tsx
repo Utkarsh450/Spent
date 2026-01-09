@@ -79,6 +79,7 @@ const Transaction = () => {
             page: page,
             limit: 10
         }})
+        setpage(2)
         console.log(response);
         
         }

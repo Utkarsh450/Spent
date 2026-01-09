@@ -13,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const { value,setdata } = useContext(ExpenseContextData)
+  const { setdata } = useContext(ExpenseContextData)
   const navigate = useNavigate()
 
   /* ---------------- Submit Handler ---------------- */
