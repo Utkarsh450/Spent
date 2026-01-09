@@ -1,8 +1,8 @@
-import axios from "../utils/axiosConfig"
 import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ExpenseContextData } from "../Context/ExpenseContext"
 import { setAccessToken } from "../utils/tokenStore"
+import api from "../utils/axiosConfig"
 
 /* ---------------- Component ---------------- */
 
@@ -39,7 +39,9 @@ const Login = () => {
     try {
       setLoading(true)
 
-      const response = await axios.post("/auth/login", {
+      console.log(api)
+      const response = await api.post("/auth/login", {
+        
         email: email.trim(),
         password,
       })      

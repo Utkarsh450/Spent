@@ -9,8 +9,7 @@ const app: Application = express()
 app.use(express.json())
 
 app.use(cors({
-    // origin: "https://spent-yr8d.vercel.app",
-    origin: "http://localhost:5173",
+    origin: "https://spent-yr8d-ds30pg5sw-utkarsh450s-projects.vercel.app",
     credentials: true,
 }));
 app.use(cookieParser());

@@ -1,8 +1,8 @@
-import axios from "../utils/axiosConfig"
 import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ExpenseContextData } from "../Context/ExpenseContext"
 import { setAccessToken } from "../utils/tokenStore"
+import api from "../utils/axiosConfig"
 
 /* ---------------- Validation Helpers ---------------- */
 
@@ -75,7 +75,7 @@ const Register = () => {
 
     try {
       setLoading(true)
-      const response = await axios.post("/auth/register", payload)
+      const response = await api.post("/auth/register", payload)
 
       if (response.status === 201) {
         setAccessToken(response.data.accessToken)

@@ -2,7 +2,7 @@ import axios from "axios"
 import { getAccessToken, setAccessToken } from "./tokenStore"
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://spent-1-n7wj.onrender.com/api",
   withCredentials: true
 })
 
@@ -31,7 +31,7 @@ api.interceptors.response.use(
         console.log("🔄 Calling refresh API")
 
         const res = await axios.post(
-          "http://localhost:3000/api/auth/refresh",
+          "https://spent-1-n7wj.onrender.com/api/auth/refresh",
             {},                        
           { withCredentials: true }
         )
